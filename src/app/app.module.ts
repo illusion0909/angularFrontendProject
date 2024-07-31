@@ -1,33 +1,24 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { routes } from './app.routes';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule, Routes } from '@angular/router'; // Import RouterModule and Routes
 import { AppComponent } from './app.component';
+import { EmployeesComponent } from './employees/employees.component';
 
-// Import any other components, services, or modules here
-import { HomeComponent } from './home/home.component';
-import { ViewEmployeeComponent } from './view-employee/view-employee.component';
-import { AddEmployeeComponent } from './add-employee/add-employee.component';
-import { EditEmployeeComponent } from './edit-employee/edit-employee.component';
-
-// Import third-party modules here (e.g., NgBootstrap, Toastr)
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; // Ensure this is installed
-import { ToastrModule } from 'ngx-toastr'; // Ensure this is installed
+// Define your routes
+const routes: Routes = [
+  { path: 'employees', component: EmployeesComponent },
+  { path: '', redirectTo: '/employees', pathMatch: 'full' }
+];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    ViewEmployeeComponent,
-    AddEmployeeComponent,
-    EditEmployeeComponent
-  ],
   imports: [
     BrowserModule,
-    routes,
-    NgbModule,
-    ToastrModule.forRoot() // Toastr configuration
+    FormsModule,
+    HttpClientModule,
+    RouterModule.forRoot(routes) // Configure the router with routes
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: []
 })
 export class AppModule { }

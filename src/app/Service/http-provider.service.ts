@@ -1,42 +1,30 @@
-// import { Injectable } from '@angular/core';
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class HttpProviderService {
-
-//   constructor() { }
-// }
 import { Injectable } from '@angular/core';
+import{HttpClient} from '@angular/common/http'
 import { Observable } from 'rxjs';
-import { WebApiService } from './web-api.service';
-
-var apiUrl = "http://localhost:8100/";
-
-var httpLink = {
-  getAllEmployee: apiUrl + "/api/employee/getAllEmployee",
-  deleteEmployeeById: apiUrl + "/api/employee/deleteEmployeeById",
-  getEmployeeDetailById: apiUrl + "/api/employee/getEmployeeDetailById",
-  saveEmployee: apiUrl + "/api/employee/saveEmployee"
-}
+import { Employee } from './web-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
+export class EmployeeService {
 
-export class HttpProviderService {
-  constructor(private webApiService: WebApiService) { }
-
-  public getAllEmployee(): Observable<any> {
-    return this.webApiService.get(httpLink.getAllEmployee);
+  constructor(private httpClient:HttpClient) { }
+  getAllEmployees():Observable<any>
+  {
+    return this.httpClient.get<any>("https://localhost:44378/api/employee");
   }
-  public deleteEmployeeById(model: any): Observable<any> {
-    return this.webApiService.post(httpLink.deleteEmployeeById + '?employeeId=' + model, "");
+  saveEmployee(newEmployee:Employee):Observable<Employee>
+  {
+    return this.httpClient.post<Employee>("https://localhost:44378/api/employee",newEmployee);
   }
-  public getEmployeeDetailById(model: any): Observable<any> {
-    return this.webApiService.get(httpLink.getEmployeeDetailById + '?employeeId=' + model);
+  
+  deleteEmployee(id:Number):Observable<any>
+  {
+    return this.httpClient.delete<any>("https://localhost:44378/api/employee/" +id);
   }
-  public saveEmployee(model: any): Observable<any> {
-    return this.webApiService.post(httpLink.saveEmployee, model);
-  }  
-}                          
+  updateEmployee(editEmployee:Employee):Observable<Employee>
+  {
+    return this.httpClient.put<Employee>("https://localhost:44378/api/employee" ,editEmployee);
+  }
+  
+}
